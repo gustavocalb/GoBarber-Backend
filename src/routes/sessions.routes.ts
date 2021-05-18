@@ -6,28 +6,24 @@ import CreateUserService from '../services/CreateUserService';
 
 const sessionsRouter = Router();
 sessionsRouter.post('/', async (req, res) => {
-  try {
-    const { email, password } = req.body;
+  const { email, password } = req.body;
 
-    const authenticateUser = new AuthenticationService();
+  const authenticateUser = new AuthenticationService();
 
-    const { user, token } = await authenticateUser.execute({
-      email,
-      password,
-    });
+  const { user, token } = await authenticateUser.execute({
+    email,
+    password,
+  });
 
-    const userWithoutPassword = {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      created_at: user.created_at,
-      updated_at: user.updated_at,
-    };
+  const userWithoutPassword = {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    created_at: user.created_at,
+    updated_at: user.updated_at,
+  };
 
-    return res.json({ userWithoutPassword, token });
-  } catch (err) {
-    return res.status(err.statusCode).json({ error: err.message });
-  }
+  return res.json({ userWithoutPassword, token });
 });
 
 export default sessionsRouter;
